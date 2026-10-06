@@ -1,24 +1,9 @@
-const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const userRoutes = require("./routes/userRoutes");
-const projectRoutes = require("./routes/projectRoutes");
-
-const app = express();
 
 dotenv.config();
 
-// Middleware
-app.use(express.json());
-app.use("/api/users", userRoutes);
-app.use("/api/projects", projectRoutes);
-
-// Test route
-app.get("/", (req, res) => {
-    res.json({
-        message: "Student API is running"
-    });
-});
+const app = require("./app");
 
 // MongoDB connection
 mongoose
@@ -26,15 +11,13 @@ mongoose
     .then(() => {
         console.log("MongoDB connected successfully");
 
-          const PORT = process.env.PORT || 5000;
+        const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
     })
     .catch((error) => {
         console.log("MongoDB connection failed");
         console.log(error.message);
     });
-
-  
